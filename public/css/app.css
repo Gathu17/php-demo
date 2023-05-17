@@ -1,0 +1,9 @@
+body{
+    background-color: antiquewhite;
+    color:brown;
+    margin: auto;
+    max-width: 500px;
+}
+article{
+   border-bottom: 2px;
+}
