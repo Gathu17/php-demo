@@ -19,7 +19,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
 
 <body style="font-family: Open Sans, sans-serif" >
     <section class="px-6 py-8">
@@ -30,9 +34,13 @@
                 </a>
             </div>
 
-            <div class="mt-8 md:mt-0">
+            <div class="mt-8 md:mt-0 flex items-center">
                 @auth
-                <span  class="text-xs font-bold uppercase">Welcome {{auth()->user()->name }}</span>
+                <x-form.dropdown trigger="trigger">
+                    
+                    <x-dropdown-item  href="/admin/dashboard">Dashboard</x-dropdown-item>
+                    <x-dropdown-item  href="/admin/posts/create" :active="request()->is('admin/posts/create')">New Post</x-dropdown-item>
+                </x-form.dropdown>
                 <form method="post" action="/logout" class="text-xs font-semibold text-blue-400 ml-6">
                     @csrf
                     <button type="submit">Logout</button>
@@ -58,16 +66,19 @@
             <div class="mt-10">
                 <div class="relative inline-block mx-auto lg:bg-gray-200 rounded-full">
 
-                    <form method="POST" action="#" class="lg:flex text-sm">
+                    <form method="POST" action="/newsletter" class="lg:flex text-sm">
+                        @csrf
                         <div class="lg:py-3 lg:px-5 flex items-center">
                             <label for="email" class="hidden lg:inline-block">
                                 <img src="./images/mailbox-icon.svg" alt="mailbox letter">
                             </label>
 
-                            <input id="email" type="text" placeholder="Your email address"
+                            <input id="email" type="email" name="email" placeholder="Your email address"
                                    class="lg:bg-transparent py-2 lg:py-0 pl-4 focus-within:outline-none">
                         </div>
-
+                        @error('email')
+                         <p class="text-red-500 text-xs mt-2"> {{ $message }}</p>
+                        @enderror
                         <button type="submit"
                                 class="transition-colors duration-300 bg-blue-500 hover:bg-blue-600 mt-4 lg:mt-0 lg:ml-3 rounded-full text-xs font-semibold text-white uppercase py-3 px-8"
                         >
